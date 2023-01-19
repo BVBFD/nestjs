@@ -24,35 +24,31 @@ export class CatsController {
 
   @Get()
   getAllCat() {
-    console.log('Hello Controller');
-    // throw new HttpException('api is broken', 401);
-    return { cats: 'get all cat api' };
+    return this.catsService.getAllCat();
   }
 
   @Get(':id')
   getOneCat(@Param('id', ParseIntPipe, PositiveIntPipe) param: number) {
-    // console.log(param);
-    // console.log(typeof param);
-    return 'one cat';
+    return this.catsService.getOneCat(param);
   }
 
   @Post()
   createCat() {
-    return 'create cat';
+    return this.catsService.createCat();
   }
 
   @Put(':id')
   updateCat() {
-    return 'update cats';
+    return this.catsService.updateCat();
   }
 
   @Patch(':id')
   updatePartialCat() {
-    return 'update a cat';
+    return this.catsService.updatePartialCat();
   }
 
   @Delete(':id')
   deleteCat() {
-    return 'delete service';
+    return this.catsService.deleteCat();
   }
 }
