@@ -18,7 +18,7 @@ export class AppController {
     @Body() body,
     @Param() param: { id: string; name: string },
   ): string {
-    // return this.appService.getHello(body, param);
-    return this.catsService.hiCatServiceProduct();
+    console.log(body, param);
+    return 'Hello Cat!';
   }
 }

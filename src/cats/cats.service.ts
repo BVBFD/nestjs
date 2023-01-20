@@ -1,35 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { Model } from 'mongoose';
+import {
+  Injectable,
+  HttpException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Cat, CatDocument } from './cats.schema';
+import { CatRequestDto } from 'src/dto/cats.request.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CatsService {
-  hiCatServiceProduct() {
-    return 'Hello Cat!';
-  }
+  constructor(@InjectModel(Cat.name) private catModel: Model<CatDocument>) {}
 
-  getAllCat() {
-    // throw new HttpException('api is broken', 401);
-    return { cats: 'get all cat api' };
-  }
+  async signUp(body: CatRequestDto) {
+    const { email, name, password } = body;
+    const isCatExist = await this.catModel.exists({ email });
 
-  getOneCat(param: number) {
-    // console.log(param);
-    // console.log(typeof param);
-    return 'one cat';
-  }
+    if (isCatExist) {
+      // throw new HttpException('해당하는 고양이는 이미 존재합니다.', 403);
+      throw new UnauthorizedException('해당하는 고양이는 이미 존재합니다.');
+    }
 
-  createCat() {
-    return 'create cat';
-  }
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
-  updateCat() {
-    return 'update cats';
-  }
+    const cat = await this.catModel.create({
+      email,
+      name,
+      password: hashedPassword,
+    });
 
-  updatePartialCat() {
-    return 'update a cat';
-  }
-
-  deleteCat() {
-    return 'delete service';
+    return cat.readOnlyData;
   }
 }
