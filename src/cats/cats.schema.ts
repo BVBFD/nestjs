@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { HydratedDocument, SchemaOptions } from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type CatDocument = HydratedDocument<Cat>;
 
@@ -10,6 +11,11 @@ const options: SchemaOptions = {
 
 @Schema(options)
 export class Cat {
+  @ApiProperty({
+    example: 'amamov@kakao.com',
+    description: 'email',
+    required: true,
+  })
   @Prop({
     required: true,
     unique: true,
@@ -18,6 +24,11 @@ export class Cat {
   @IsNotEmpty()
   email: string;
 
+  @ApiProperty({
+    example: 'amamov',
+    description: 'name',
+    required: true,
+  })
   @Prop({
     required: true,
   })
@@ -25,6 +36,11 @@ export class Cat {
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({
+    example: '23810',
+    description: 'password',
+    required: true,
+  })
   @Prop({
     required: true,
   })
