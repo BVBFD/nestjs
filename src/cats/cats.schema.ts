@@ -49,11 +49,11 @@ export class Cat {
   password: string;
 
   @Prop()
-  @IsString()
-  imgUrl: string;
+  imgUrl?: string;
 
-  readonly readOnlyData: { id: string; email: string; name: string };
-  id: string;
+  readonly readOnlyData?: { id: string; email: string; name: string };
+
+  id?: string;
 }
 
 export const CatSchema = SchemaFactory.createForClass(Cat);

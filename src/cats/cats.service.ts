@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cat, CatDocument } from './cats.schema';
-import { CatRequestDto } from 'src/dto/cats.request.dto';
+import { CatRequestDto } from 'src/cats/dto/cats.request.dto';
 import * as bcrypt from 'bcrypt';
 import { CatsRepository } from './cats.repository';
 
@@ -27,7 +27,6 @@ export class CatsService {
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
     const cat = await this.catsRepository.create({
-      ...body,
       email,
       name,
       password: hashedPassword,
